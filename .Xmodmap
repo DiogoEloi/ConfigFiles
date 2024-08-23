@@ -1,0 +1,8 @@
+keycode 135 = Escape
+
+clear control
+
+keycode 21 = Control_L NoSymbol Control_L
+
+add control = Control_L
+add control = Control_R
