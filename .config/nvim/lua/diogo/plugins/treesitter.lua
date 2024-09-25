@@ -29,6 +29,7 @@ return {
         "yaml",
         "html",
         "css",
+        "sql",
         "prisma",
         "markdown",
         "markdown_inline",
