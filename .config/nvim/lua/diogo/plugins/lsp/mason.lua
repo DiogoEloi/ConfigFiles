@@ -30,13 +30,8 @@ return {
         "ts_ls",
         "html",
         "cssls",
-        "tailwindcss",
-        "svelte",
         "lua_ls",
-        "graphql",
         "emmet_ls",
-        "prismals",
-        "pyright",
       },
     })
 
@@ -46,7 +41,6 @@ return {
         "stylua", -- lua formatter
         "isort", -- python formatter
         "black", -- python formatter
-        "pylint",
         "eslint_d",
       },
     })

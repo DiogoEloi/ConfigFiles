@@ -4,7 +4,8 @@ return {
   build = ":TSUpdate",
   dependencies = {
     "windwp/nvim-ts-autotag",
-  },
+    "nvim-treesitter/nvim-treesitter-textobjects"
+    },
   config = function()
     -- import nvim-treesitter plugin
     local treesitter = require("nvim-treesitter.configs")
@@ -29,6 +30,7 @@ return {
         "yaml",
         "html",
         "css",
+        "scss",
         "sql",
         "prisma",
         "markdown",
@@ -47,10 +49,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
+          init_selection = "<space>",
+          node_incremental = "<space>",
+          node_decremental = "<C-space>",
           scope_incremental = false,
-          node_decremental = "<bs>",
         },
       },
     })
