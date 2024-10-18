@@ -24,6 +24,7 @@ return {
         path = "~/Documents/Obsidian Vault",
       }
     },
+    ui = { enable =  true}
 
     -- see below for full list of options 👇
   },

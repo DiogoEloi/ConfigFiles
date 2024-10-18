@@ -15,13 +15,13 @@ return {
         },
         "saadparwaiz1/cmp_luasnip", -- for autocompletion
         "rafamadriz/friendly-snippets", -- useful snippets
-        'hrsh7th/cmp-nvim-lsp-signature-help'
     },
     config = function()
         local cmp = require("cmp")
         local luasnip = require("luasnip")
 
-        luasnip.filetype_extend("typescriptreact", {"javascript", "javascriptreact"})
+        luasnip.filetype_extend("typescriptreact", {"javascript", "javascriptreact", "html", "jsx"})
+        luasnip.filetype_extend("javascriptreact", {"javascript", "html", "jsx"})
 
         -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
         require("luasnip.loaders.from_vscode").lazy_load()
@@ -48,13 +48,14 @@ return {
                 ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
+
                 ["<C-e>"] = cmp.mapping.abort(), -- close completion window
-                ["<C-y>"] = cmp.mapping.confirm({ 
+                ["<C-l>"] = cmp.mapping.confirm({ 
                     select = true,
                     behavior = cmp.ConfirmBehavior.Replace
                 }),
 
-                ['<C-l>'] = cmp.mapping(function(fallback)
+                ['<S-l>'] = cmp.mapping(function(fallback)
                     if luasnip.jumpable(1) then
                         luasnip.jump(1)
                     else
@@ -71,14 +72,15 @@ return {
                 end, {'i', 's'}),
 
             }),
+
             -- sources for autocompletion
             sources = cmp.config.sources(
                 {
                     {
                         name = "nvim_lsp",
-                        entry_filter = function(entry, ctx)
-                            return require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
-                        end,
+                        -- entry_filter = function(entry, ctx)
+                        --     return require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+                        -- end,
                     },
                     { name = 'nvim_lsp_signature_help'},
                     { name = "path" }, -- file system paths
@@ -87,6 +89,25 @@ return {
                 {
                     { name = "buffer" }, -- text within current buffer
                 }),
+
+            formatting = {
+
+                fields = {"abbr","kind", "menu"},
+                expandable_indicator = true,
+
+                format = function(entry, vim_item)
+                    -- set a name for each source
+                    vim_item.menu = ({
+                        nvim_lsp = "[LSP]",
+                        luasnip = "[Snippet]",
+                        buffer = "[Buffer]",
+                        nvim_lua = "[Lua]",
+                        latex_symbols = "[LaTeX]",
+                    })[entry.source.name]
+
+                    return vim_item
+                end,
+            },
 
         })
     end,

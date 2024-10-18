@@ -21,10 +21,7 @@ return {
 
                 -- set keybinds
                 opts.desc = "Show LSP references"
-                keymap.set("n", "<leader>lR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-                opts.desc = "Go to declaration"
-                keymap.set("n", "<leader>lD", vim.lsp.buf.declaration, opts) -- go to declaration
+                keymap.set("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
                 opts.desc = "Show LSP definitions"
                 keymap.set("n", "<leader>ld", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
@@ -39,7 +36,7 @@ return {
                 keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
 
                 opts.desc = "Smart rename"
-                keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts) -- smart rename
+                keymap.set("n", "<leader>lrn", vim.lsp.buf.rename, opts) -- smart rename
 
                 opts.desc = "Show buffer diagnostics"
                 keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
@@ -72,14 +69,21 @@ return {
         -- import cmp-nvim-lsp plugin
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-        -- used to enable autocompletion (assign to every lsp server config)
-        local capabilities = cmp_nvim_lsp.default_capabilities()
+        capabilities = cmp_nvim_lsp.default_capabilities()
+
+        local capabilities = vim.tbl_deep_extend(
+            "force",
+            {},
+            vim.lsp.protocol.make_client_capabilities(),
+            cmp_nvim_lsp.default_capabilities())
 
         lspconfig['ts_ls'].setup({
             capabilities=capabilities,
+
         })
         lspconfig['html'].setup({
-            capabilities=capabilities
+            capabilities=capabilities,
+            filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" }
         })
         lspconfig['cssls'].setup({
             capabilities=capabilities
@@ -87,9 +91,10 @@ return {
         lspconfig['lua_ls'].setup({
             capabilities=capabilities
         })
-        lspconfig['emmet_ls'].setup({
-            capabilities=capabilities
-        })
+        -- lspconfig['emmet_ls'].setup({
+        --     capabilities=capabilities,
+        --     filetypes = { "astro", "css", "eruby", "html", "htmldjango", "javascriptreact", "less", "pug", "sass", "scss", "svelte", "typescriptreact", "vue", "htmlangular" }
+        -- })
 
     end,
 }
