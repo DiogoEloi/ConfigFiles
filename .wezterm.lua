@@ -7,29 +7,48 @@ return {
     enable_tab_bar = false,
     font_size = 11.0,
     font = wezterm.font('0xProto Nerd Font'),
-    -- macos_window_background_blur = 40,
-    -- window_background_image = '/Users/omerhamerman/Downloads/3840x1080-Wallpaper-041.jpg',
-    -- window_background_image_hsb = {
-    -- 	brightness = 0.01,
-    -- 	hue = 1.0,
-    -- 	saturation = 0.5,
-    -- },
+
     window_background_opacity = 0.80,
     macos_window_background_blur = 10,
-
     window_decorations = 'RESIZE',
     keys = {
         {
             key = 'f',
             mods = 'CTRL',
-            action = wezterm.action.ToggleFullScreen,
+            action = act.ToggleFullScreen,
         },
         {
             key = '\'',
             mods = 'CTRL',
-            action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
+            action = act.ClearScrollback 'ScrollbackAndViewport',
+        },
+        {
+            key = 'l',
+            mods = 'CTRL',
+            action = act.DisableDefaultAssignment,
+        },
+        {
+            key = 'j',
+            mods = 'CTRL',
+            action = act.DisableDefaultAssignment,
+        },
+        {
+            key = 'k',
+            mods = 'CTRL',
+            action = act.DisableDefaultAssignment,
+        },
+        {
+            key = 'h',
+            mods = 'CTRL',
+            action = act.DisableDefaultAssignment,
         },
     },
+    -- window_padding = {
+    --       left = 0,
+    --       right = 0,
+    --       top = 0,
+    --       bottom = 0,
+    -- },
 
     -- There are mouse binding to mimc Windows Terminal and let you copy
     -- To copy just highlight something and right click. Simple
