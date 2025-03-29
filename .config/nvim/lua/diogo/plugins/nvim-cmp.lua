@@ -20,7 +20,7 @@ return {
         local cmp = require("cmp")
         local luasnip = require("luasnip")
 
-        luasnip.filetype_extend("typescriptreact", {"javascript", "javascriptreact", "html", "jsx"})
+        luasnip.filetype_extend("typescriptreact", {"javascript", "javascriptreact", "html", "jsx", "typescript"})
         luasnip.filetype_extend("javascriptreact", {"javascript", "html", "jsx"})
 
         -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
@@ -45,8 +45,8 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
                 ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
-                ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                ["<C-h>"] = cmp.mapping.scroll_docs(-4),
+                ["<C-n>"] = cmp.mapping.scroll_docs(4),
                 ["<C-d>"] = cmp.mapping.complete(), -- show completion suggestions
 
                 ["<C-e>"] = cmp.mapping.abort(), -- close completion window
@@ -58,7 +58,7 @@ return {
                     select = true,
                     behavior = cmp.ConfirmBehavior.Replace
                 }),
-                ['<C-Space>'] = cmp.mapping(function(fallback)
+                ['<C-g>'] = cmp.mapping(function(fallback)
                     if luasnip.jumpable(1) then
                         luasnip.jump(1)
                     else
@@ -66,7 +66,7 @@ return {
                     end
                 end, {'i', 's'}),
 
-                ['<C-h>'] = cmp.mapping(function(fallback)
+                ['<C-f>'] = cmp.mapping(function(fallback)
                     if luasnip.jumpable(-1) then
                         luasnip.jump(-1)
                     else

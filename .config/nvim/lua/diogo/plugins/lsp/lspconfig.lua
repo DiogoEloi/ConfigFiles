@@ -21,13 +21,13 @@ return {
 
                 -- set keybinds
                 opts.desc = "Show LSP references"
-                keymap.set("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
+                keymap.set("n", "<leader>r", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
                 opts.desc = "Show LSP definitions"
-                keymap.set("n", "<leader>ld", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+                keymap.set("n", "<leader>d", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 
                 opts.desc = "Show LSP implementations"
-                keymap.set("n", "<leader>li", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
+                keymap.set("n", "<leader>i", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
                 opts.desc = "Show LSP type definitions"
                 keymap.set("n", "<leader>lt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
@@ -42,7 +42,7 @@ return {
                 keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
                 opts.desc = "Show line diagnostics"
-                keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+                keymap.set("n", "<leader>di", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
                 opts.desc = "Go to previous diagnostic"
                 keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
@@ -55,6 +55,16 @@ return {
 
                 opts.desc = "Restart LSP"
                 keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+
+        require("lsp_signature").on_attach({
+          bind = true,
+          hint_enable = true,
+          floating_window = false,
+          handler_opts = {
+            border = "rounded"
+          },
+          hint_prefix = "🐼 ",
+        }, ev.buf)
             end,
         })
 
@@ -63,9 +73,9 @@ return {
         local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
-            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+            -- vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+            vim.diagnostic.config() 
         end
-
         -- import cmp-nvim-lsp plugin
         local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -79,18 +89,25 @@ return {
 
         lspconfig['ts_ls'].setup({
             capabilities=capabilities,
+            filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+            exclude = { "node_modules" }  
 
         })
         lspconfig['html'].setup({
             capabilities=capabilities,
-            filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" }
+            filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" },
+            exclude = { "node_modules" }  
         })
         lspconfig['cssls'].setup({
             capabilities=capabilities
         })
-        lspconfig['lua_ls'].setup({
-            capabilities=capabilities
-        })
+        -- lspconfig['lua_ls'].setup({
+        --     capabilities=capabilities,
+        --     workspace = {
+        --         maxPreload = 11,
+        --         preloadFileSize = 10
+        --     },
+        -- })
         -- lspconfig['emmet_ls'].setup({
         --     capabilities=capabilities,
         --     filetypes = { "astro", "css", "eruby", "html", "htmldjango", "javascriptreact", "less", "pug", "sass", "scss", "svelte", "typescriptreact", "vue", "htmlangular" }
